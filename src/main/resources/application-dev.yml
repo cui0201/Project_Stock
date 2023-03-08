@@ -1,24 +1,25 @@
 #服务端口号
 server:
-  port: 18082
+  port: 18085
 
 #配置数据库连接信息
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/dijia?serverTimezone=GMT%2B8&characterEncoding=utf-8&&allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/purchase?serverTimezone=GMT%2B8&characterEncoding=utf-8&&allowMultiQueries=true
     username: root
-    password: root
+    password: 88888888
     driver-class-name: com.mysql.cj.jdbc.Driver
 
 #mybatis配置扫描
 mybatis:
-  mapper-locations: classpath:mybatis/*Mapper.xml
+  mapper-locations: classpath:mapper/*Mapper.xml
+
 
 #日志
 logging:
   file:
-    path: D:/javaClass/log
+    path: ~/git/logs
   level:
     root: info
     com:
-      wb: debug
+      dj: debug
