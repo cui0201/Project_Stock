@@ -1,6 +1,6 @@
 #服务端口号
 server:
-  port: 18082
+  port: 18085
 
 #配置数据库连接信息
 spring:
