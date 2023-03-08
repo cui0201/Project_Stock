@@ -7,11 +7,12 @@ import com.dj.kuqushuxing.model.UpdateShuXingVo;
 import com.dj.kuqushuxing.service.ShuXingService;
 import com.dj.kuqushuxing.util.BuildVo;
 import com.dj.kuqushuxing.util.Vo;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+
 
 @RestController
 @CrossOrigin
