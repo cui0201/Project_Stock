@@ -19,6 +19,7 @@ import com.dj.cyh.util.ResultVoBuild;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.annotation.Resources;
@@ -135,6 +136,15 @@ public class KuweiServiceImpl extends ServiceImpl<KuweiMapper, Kuwei>
         kuweiMapper.delete(wrapper);
         kuweiMapper.insertList(list1);
         return ResultVoBuild.success();
+    }
+
+    @Override
+    public ResultVo importKuWei(MultipartFile multipartFile) {
+        if(!multipartFile.getOriginalFilename().endsWith(".xlsx")){
+            return ResultVoBuild.defeated("文件错误！！");
+        }
+
+        return null;
     }
 }
 

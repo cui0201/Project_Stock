@@ -4,10 +4,12 @@ import com.dj.cyh.bean.*;
 import com.dj.cyh.bean.status.StatusUpdate;
 import com.dj.cyh.service.KuweiService;
 import com.dj.cyh.util.ResultVo;
+import com.dj.cyh.util.ResultVoBuild;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -25,7 +27,7 @@ public class KuweiController {
     private KuweiService kuweiService;
 
     @ApiOperation(value = "状态下拉框")
-    @PostMapping("/iwm/getPullDownList")
+    @PostMapping("/iwm/getPullDownList1")
     public ResultVo getPullDownList(){
         return kuweiService.getPullDownList();
     }
@@ -66,6 +68,14 @@ public class KuweiController {
     public ResultVo update(@RequestBody KuweiUpdate kuweiUpdate){
         return kuweiService.updateKuwei(kuweiUpdate);
     }
+    @ApiOperation(value = "导入库位信息")
+    @PostMapping("StorageBin/import")
+    public ResultVo importKuWei(MultipartFile multipartFile){
+
+        return kuweiService.importKuWei(multipartFile);
+
+    }
+
 
 
 

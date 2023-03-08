@@ -4,7 +4,9 @@ import com.dj.cyh.bean.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.dj.cyh.bean.status.StatusUpdate;
 import com.dj.cyh.util.ResultVo;
+import org.apache.ibatis.annotations.Param;
 import org.apache.poi.ss.formula.functions.T;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -68,4 +70,11 @@ public interface KuweiService extends IService<Kuwei> {
      * @return
      */
     ResultVo add(KuweiAddListVo list);
+
+    /**
+     * 导入文件
+     * @param multipartFile
+     * @return
+     */
+    ResultVo importKuWei(@Param("multipartFile") MultipartFile multipartFile);
 }
