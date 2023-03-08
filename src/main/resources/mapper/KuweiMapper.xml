@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.cyh.mapper.KuweiMapper">
+
+    <resultMap id="BaseResultMap" type="com.dj.cyh.bean.Kuwei">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="DATE"/>
+            <result property="createPre" column="create_pre" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="DATE"/>
+            <result property="updatePre" column="update_pre" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="legalpersonId" column="legalPerson_id" jdbcType="INTEGER"/>
+            <result property="kuquCode" column="kuqu_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code,name,
+        status,create_time,create_pre,
+        update_time,update_pre,version,
+        legalPerson_id,kuqu_code
+    </sql>
+    <insert id="insertList">
+        insert into kuwei(kuwei.`code`,kuwei.`name`,kuwei.`status`,kuwei.create_pre,kuwei.create_time,kuwei.update_pre,kuwei.update_time,kuwei.kuqu_code)
+        values
+            <foreach collection="list1" item="list" open="(" separator="),(" close=")">
+            #{list.code},#{list.name},#{list.status},#{list.createPer},SYSDATE(),#{list.updatePer},SYSDATE(),#{list.storageSectionCode}
+        </foreach>
+
+    </insert>
+    <select id="totalNumByCondition" resultType="java.lang.Integer">
+        SELECT COUNT(*) from kuwei as kw
+        LEFT JOIN kuqu as kq on kw.kuqu_code=kq.`code`
+        LEFT JOIN kufangshezhi as kf on kf.`code`=kq.kufang_code
+        <where>
+            <if test="code!=null and code!=''">
+                kw.code =#{code} and
+            </if>
+            <if test="name!=null and name!=''">
+                kw.name =#{name} and
+            </if>
+            <if test="storageSectionCode!=null and storageSectionCode!=''">
+                kq.code =#{storageSectionCode} and
+            </if>
+            <if test="storageSectionName!=null and storageSectionName!=''">
+                kq.name =#{storageSectionName} and
+            </if>
+            <if test="wareHouseCode!=null and wareHouseCode!=''">
+                kf.code =#{wareHouseCode} and
+            </if>
+            <if test="wareHouseName!=null and wareHouseName!=''">
+                kf.name =#{wareHouseName} and
+            </if>
+            <if test="status!=null">
+                kw.status =#{status}
+            </if>
+        </where>
+
+    </select>
+    <select id="queryPageForKuWei" resultType="com.dj.cyh.bean.KuWeiQueryPageForVo">
+        SELECT kw.id as id,
+        kw.`code` as code,
+        kw.`name` as name,
+        kw.`status` as status,
+        kq.`code` as storageSectionCode,
+        kq.`name` as storageSectionName,
+        kq.remark as storageSectionRemark,
+        kf.`code` as wareHouseCode,
+        kf.`name` as wareHouseName,
+        kf.remark as wareHouseRemark
+        from kuwei as kw
+        LEFT JOIN kuqu as kq on kw.kuqu_code = kq.`code`
+        LEFT JOIN kufangshezhi as kf on kf.`code` = kq.kufang_code
+        <where>
+            <if test="code!=null and code!=''">
+                kw.code =#{code} and
+            </if>
+            <if test="name!=null and name!=''">
+                kw.name =#{name} and
+            </if>
+            <if test="storageSectionCode!=null and storageSectionCode!=''">
+                kq.code =#{storageSectionCode} and
+            </if>
+            <if test="storageSectionName!=null and storageSectionName!=''">
+                kq.name =#{storageSectionName} and
+            </if>
+            <if test="wareHouseCode!=null and wareHouseCode!=''">
+                kf.code =#{wareHouseCode} and
+            </if>
+            <if test="wareHouseName!=null and wareHouseName!=''">
+                kf.name =#{wareHouseName} and
+            </if>
+            <if test="status!=null">
+                kw.status =#{status}
+            </if>
+        </where>
+    </select>
+</mapper>

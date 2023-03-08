@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dj.cyh.mapper.KuquMapper">
+
+    <resultMap id="BaseResultMap" type="com.dj.cyh.bean.Kuqu">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="remark" column="remark" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="DATE"/>
+            <result property="createPre" column="create_pre" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="DATE"/>
+            <result property="updatePre" column="update_pre" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="INTEGER"/>
+            <result property="kufangCode" column="kufang_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,code,name,
+        remark,status,create_time,
+        create_pre,update_time,update_pre,
+        version,kufang_code
+    </sql>
+</mapper>
