@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.andg//DTD Mapper 3.0//EN" "http://mybatis.andg/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dj.kuqu.mapper.AreaMapper">
+
+    <sql id="se" >
+        kq.id,kq.code,kq.name,kq.remark,kq.status,kf.code as wareHouseCode,kf.name as wareHouseName,kf.remark as wareHouseRemark
+    </sql>
+    <insert id="addKuqu" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into kuqu(code,name,remark,status,create_time,create_pre,update_time,update_pre,kufang_code,guanli,wms,vip)
+        values(#{code},#{name},#{remark},#{status},SYSDATE(),#{createPre},SYSDATE(),#{updatePre},#{wareHouseCode},#{warehouseManagement},#{wmsIntegrate},#{vipStorageSection})
+    </insert>
+    <insert id="addKksx">
+        insert into kuqu_kuqushuxing(kuqu_id,kuqushuxing_id)
+        values
+        <foreach collection="businessAttribute" item="list" separator=",">
+            (#{id},#{list})
+        </foreach>
+    </insert>
+    <insert id="insertAreaFile">
+        insert into kuqu(code,name,remark,status,kufang_code) values
+        <foreach collection="ar" item="list" separator=",">
+            (#{list.code},#{list.name},#{#{list.remark},#{#{list.status},#{list.wareHouseCode}})
+        </foreach>
+    </insert>
+    <update id="updateKuqu">
+        update kuqu set name = #{name},status = #{status}
+        <if test="remark != null and remark != ''">
+            remark = #{remark},
+        </if>
+        <if test="warehouseManagement != null">
+            guanli = #{warehouseManagement},
+        </if>
+        <if test="wmsIntegrate != null">
+            wms = #{wmsIntegrate},
+        </if>
+        <if test="vipStorageSection != null">
+            vip = #{vipStorageSection}
+        </if>
+    </update>
+    <update id="updateStatus">
+        update kuqu set status = #{status} where id = #{id}
+    </update>
+    <delete id="deleteKksx">
+        delete from kuqu_kuqushuxing where kuqu_id = #{id}
+    </delete>
+
+    <select id="selectArea" resultType="com.dj.kuqu.model.Area">
+        SELECT <include refid="se"/> FROM kuqu as kq
+        LEFT JOIN kufangshezhi as kf on kf.code = kq.kufang_code
+        <where>
+            <if test="wareHouseCode != null and wareHouseCode != ''">
+                kf.code like concat(#{wareHouseCode},'%')
+            </if>
+            <if test="wareHouseName != null and wareHouseName != ''">
+                kf.name like concat(#{wareHouseName},'%')
+            </if>
+            <if test="code != null and code != ''">
+                kq.code like concat(#{code},'%')
+            </if>
+            <if test="name != null and name != ''">
+                kq.name like concat(#{name},'%')
+            </if>
+            <if test="status != null">
+                kq.status = #{status}
+            </if>
+        </where>
+        order by kq.update_time limit #{offSize},#{pageSize}
+    </select>
+    <select id="selectCountArea" resultType="java.lang.Integer">
+        SELECT count(kq.id) FROM kuqu as kq
+        LEFT JOIN kufangshezhi as kf on kf.code = kq.kufang_code
+        <where>
+            <if test="wareHouseCode != null and wareHouseCode != ''">
+                kf.code like concat(#{wareHouseCode},'%')
+            </if>
+            <if test="wareHouseName != null and wareHouseName != ''">
+                kf.name like concat(#{wareHouseName},'%')
+            </if>
+            <if test="code != null and code != ''">
+                kq.code like concat(#{code},'%')
+            </if>
+            <if test="name != null and name != ''">
+                kq.name like concat(#{name},'%')
+            </if>
+            <if test="status != null">
+                kq.status = #{status}
+            </if>
+        </where>
+    </select>
+    <select id="selectAreaByAreaCode" resultType="java.lang.Integer">
+        select count(id) from kuqu where code = #{code}
+    </select>
+    <select id="selectKqSx" resultType="com.dj.kuqu.model.KqSx">
+        select id,code,name from kuqushuxing
+    </select>
+    <select id="selectKuFang" resultType="com.dj.kuqu.model.KuFang">
+        select id,code,name from kufangshezhi
+    </select>
+    <select id="selectSeeOne" resultType="com.dj.kuqu.model.Area">
+        SELECT <include refid="se"/> FROM kuqu as kq
+        LEFT JOIN kufangshezhi as kf on kf.code = kq.kufang_code
+        where kq.id = #{id}
+    </select>
+    <select id="selectAll" resultType="com.dj.kuqu.model.ArFile">
+        SELECT <include refid="se"/> FROM kuqu as kq
+        LEFT JOIN kufangshezhi as kf on kf.code = kq.kufang_code
+    </select>
+
+    <select id="selectKf" resultType="java.lang.String">
+        select code from kufangshezhi
+    </select>
+</mapper>
